@@ -1,1 +1,343 @@
+#            20BCACDC052
+#
+
+from itertools import count
+import time
+
+######################## Animation title #########################
+def animate_title(anime):
+    for char in anime:
+        print(char, end='', flush=True)
+        time.sleep(0.1)  # Adjust the delay as needed
+    print("\n")
+
+#[DONE]
+
+###################### Incrementing ranges ### & ### variables for class A ####################
+def increment_variablesA(a, b, c, increment):
+    ranges = []
+    count = 0
+
+    while True:
+        # Check if all variables have reached their limits
+        if a == 255 and b == 255 and c == 255:
+            break
+
+        # Calculate the maximum increment allowed for each variable
+        max_increment_a = min(increment, 255 - a)
+        max_increment_b = min(increment, 255 - b)
+        max_increment_c = min(increment, 255 - c)
+
+        # Calculate the actual increments for each variable
+        increment_a = min(max_increment_a, increment)
+        increment_b = min(max_increment_b, increment - increment_a)
+        increment_c = min(max_increment_c, increment - increment_a - increment_b)
+
+        # Update the variables with the increments
+        a += increment_a
+        b += increment_b
+        c += increment_c
+
+        # Append the current range to the list
+        ranges.append((a, b, c))
+
+        count += 1
+
+    return ranges, count
+#[DONE]
+
+########################### incrementing for class B  ###############################
+def increment_variablesB(a, b, increment):
+    ranges = []
+    count = 0
+
+    while True:
+        # Check if both variables have reached their limits
+        if a == 255 and b == 255:
+            break
+
+        # Calculate the maximum increment allowed for each variable
+        max_increment_a = min(increment, 255 - a)
+        max_increment_b = min(increment, 255 - b)
+
+        # Calculate the actual increments for each variable
+        increment_a = min(max_increment_a, increment)
+        increment_b = min(max_increment_b, increment - increment_a)
+
+        # Update the variables with the increments
+        a += increment_a
+        b += increment_b
+
+        # Append the current range to the list
+        ranges.append((a, b))
+
+        count += 1
+
+    return ranges, count
+#[DONE]
+############################### FOR C class #########################################
+def increment_variableC(a, increment):
+    ranges = []
+    count = 0
+
+    while a < 255:
+        # Calculate the maximum increment allowed
+        max_increment = min(increment, 255 - a)
+
+        # Calculate the actual increment
+        actual_increment = min(max_increment, increment)
+
+        # Update the variable with the increment
+        a += actual_increment
+
+        # Append the current range to the list
+        ranges.append(a)
+
+        count += 1
+
+    return ranges, count
+# [DONE]
+
+################################ count binary indices ##################################
+def count_indices(binary_value):
+    binary_value = binary_value.lstrip('0')  # Remove leading '0' characters
+    # Count the number of indices
+    count = len(binary_value)
+    return count
+#[DONE]
+
+######################################## decimal to binary #############################
+def deci_to_bin(dec):
+    binary_value = ''
+    while dec != 0:
+        rev = dec % 2
+        binary_value += str(rev)
+        dec = dec // 2
+    binary_value = binary_value[::-1]  # Reverse the binary value
+    return binary_value
+#[DONE]
+
+########################################## ipv4 octet verification ##################################### 
+#this get_octet() will make sure that the octet is an integer and it is within the given range 0-255
+
+def check_octet(get_octet):
+    if get_octet.isdigit() and 0<int(get_octet)<=255 :
+        print("Octet Valid")
+    else:
+        print(get_octet, " *Invalid octet")
+        print("SrY can't proceed with invalid octets : ")
+        exit(0)
+# [DONE]
+
+#################################### Main ############## BODY ################### BELOW #################
+
+print("********************************************************************************")
+FiNet=" { F inding subN e t} = > F i_N e t  /{^.^}\ "
+st=" Hi Welcome to the subnet calculator [FiNet] , pLease read the manual :"
+animate_title(st)
+print(" -> Type your IPv4 address present in your network ")
+print(" -> Also input your required No.of hosts per subnet ")
+print(" -> ^^^ Gentle Reminders:- ^^^ ")
+print(" -> if you don't wanna include cidr value just input it as '0'")
+print(" -> Eg : 'xxx.xxx.xxx.xxx/0'  || 'xxx.xxx.xxx.xxx/xx' )")
+print(" -> This is a prototype model for FiNet {only major functions present}")
+print(" -> CLI-based ")
+print("********************************************************************************")
+animate_title(FiNet)
+
+
+while True:
+#these both are global variables 
+
+    IP = input("\n \n~>IPv4/cidr   ? : ")        # inputs IP's with cidr and 
+    hosts = int(input("~>Hosts Requirement ?: "))  # get number of hosts
+    ip_with_cidr = IP.split("/", 1)             #splitting cidr's with ipv4
+    cidr = ip_with_cidr[1]                      #considering ipv4
+    print("\n Ipv4 : ",ip_with_cidr[0])
+    print("Hosts : ",hosts)
+    ipv4 = ip_with_cidr[0].split(".", 3)        #splitting ipv4 into 4 octets
+
+    #Assigning the each octet values the object named octet'x'
+    octet1 = ipv4[0]
+    octet2 = ipv4[1]
+    octet3 = ipv4[2]
+    octet4 = ipv4[3]
+    #   [DONE]
+
+    #verifying the validity of the ipv4 with check_octet() 
+    print("\n")
+    check_octet(octet1)
+    check_octet(octet2)
+    check_octet(octet3)
+    check_octet(octet4)
+    #   [DONE]
+
+    #output the following result of all ip
+    print("\n",ip_with_cidr,"\n")
+
+    # each octet is verified until it is given a correct valid ip range if not then it will continue till its given the right ip and cidr range pending ...
+
+    # ipv4 class allocations class A,B,C,D,E   
+    subnetmaskoctet1=0
+    subnetmaskoctet2=0
+    subnetmaskoctet3=0
+    subnetmaskoctet4=0
+    ip_addr_class='x'
+    if int(octet1) <= 127 :
+        subnetmaskoctet1=255
+        print("SubnetMask : ",subnetmaskoctet1,".",subnetmaskoctet2,".",subnetmaskoctet3,".",subnetmaskoctet4)
+        print("\n")
+        if int(octet1)==10 :
+            print("Class A 'Private IP address ' ",ip_with_cidr[0])
+        if int(octet1)==127 :
+            print("Class A 'Loopback Address' ",ip_with_cidr[0])
+        print("Class 'A' : ",ip_with_cidr[0]," N.H.H.H ")
+        ip_addr_class='A'
+        print("Class : ",ip_addr_class)
+    
+    elif 128<=int(octet1)<=191 :
+        subnetmaskoctet1=255
+        subnetmaskoctet2=255
+        print("SubnetMask : ",subnetmaskoctet1,".",subnetmaskoctet2,".",subnetmaskoctet3,".",subnetmaskoctet4)
+        print("\n")
+        print("class 'B' ",ip_with_cidr[0])
+        if int(octet1)==172 and 16<=int(octet2)<=31 :
+            print(" Class B 'private IP address' ",ip_with_cidr[0],"N.N.H.H")
+        ip_addr_class='B'
+        print("Class : ",ip_addr_class)
+
+    elif 192<=int(octet1)<=223 :
+        subnetmaskoctet1=255
+        subnetmaskoctet2=255
+        subnetmaskoctet3=255
+        print("SubnetMask : ",subnetmaskoctet1,".",subnetmaskoctet2,".",subnetmaskoctet3,".",subnetmaskoctet4)
+        print("\n")
+        if int(octet1)==192 and int(octet2)==168:
+            print("Class C 'Private Ip address ' ",ip_with_cidr[0])
+        else :
+            print("class 'C' ",ip_with_cidr[0]," N.N.N.H ")
+        ip_addr_class='C'
+        print("Class : ",ip_addr_class)
+    
+
+    elif 224<=int(octet1)<=239  :
+        print("class 'D' ",ip_with_cidr[0])
+        ip_addr_class='D'
+        print("Class : ",ip_addr_class)
+
+    elif 240<=int(octet1)<=255 :
+        print("class 'E' ",ip_with_cidr[0])
+        ip_addr_class='E'
+        print("Class : ",ip_addr_class)
+
+    else :
+        print("Some error input found ! ")
+    # [DONE]
+
+    # convert to binary #
+
+    #ipv4 to binary
+    L1=deci_to_bin(int(octet1))
+    L2=deci_to_bin(int(octet2))
+    L3=deci_to_bin(int(octet3))
+    L4=deci_to_bin(int(octet4))
+    print("\n")
+    print("IPv4 [binary] :",L1,".",L2,".",L3,".",L4 )
+
+    #subnet mask to binary 
+    sb1=deci_to_bin(subnetmaskoctet1)
+    sb2=deci_to_bin(subnetmaskoctet2)
+    sb3=deci_to_bin(subnetmaskoctet3)
+    sb4=deci_to_bin(subnetmaskoctet4)
+    print("SubnetMask [binary]: ",sb1,".",sb2,".",sb3,".",sb4)
+
+    #Finding bits in the subnet mask    #
+
+    host_binary=deci_to_bin(hosts)
+    print("Host [binary]",host_binary)
+    bits=count_indices(host_binary)
+    print("\nNo.of Bits : ",bits) 
+
+    #to find subnet generator , 
+    sg = pow(2,bits)
+    print("Subnet Generator = ",sg)
+
+    #octet positioning , 
+    if bits <= 8 :
+        print("\n The octet position : 4th octet")
+    elif bits <=16:
+        print("\n The octet position : 3rd octet")
+    elif bits <=24:
+        print("\n The octet position : 2nd octet")
+    elif bits <=32:
+        print("\n The octet position : 1st octet")
+    else:
+        print(" Something not right ")
+
+    # Find the new subnet mask of the given ip[ipv4]    #
+
+    new_subnet_mask = 32 - bits
+    print("New Subnet Mask : ",subnetmaskoctet1,".",subnetmaskoctet2,".",subnetmaskoctet3,".",subnetmaskoctet4,"/",new_subnet_mask)
+
+    # Network Ranges [Main climax ]     #
+
+    print("Network Ranges of Given IP :",ip_with_cidr)
+    print("\n\n")
+    if ip_addr_class == 'A':
+        ranges, count = increment_variablesA(int(octet2),int(octet3),int(octet4),sg)
+        # Display the ranges
+        for i in range(len(ranges)):
+            start = ranges[i]
+            if i < len(ranges) - 1:
+                end = ranges[i+1]
+            else:
+                end = (255, 255, 255)
+            print(f"[{octet1}.{start[0]}.{start[1]}.{start[2]}] - [{octet1}.{end[0]}.{end[1]}.{end[2]}]")
+
+        # Display the total count
+        print("Total count:", count)
+
+    elif ip_addr_class == 'B' :
+        ranges, count = increment_variablesB(int(octet3), int(octet4), sg)
+        for i in range(len(ranges)):
+            start = ranges[i]
+            if i < len(ranges) - 1:
+                end = ranges[i+1]
+            else:
+                end = (255, 255)
+            print(f"[{octet1}.{octet2}.{start[0]}.{start[1]}] - [{octet1}.{octet2}.{end[0]}.{end[1]}]")
+
+        # Display the total count
+        print("Total count:", count)
+
+    elif ip_addr_class == 'C' :
+        ranges, count = increment_variableC(int(octet4), sg)
+
+        # Display the ranges
+        for i in range(len(ranges)):
+            start = ranges[i]
+            if i < len(ranges) - 1:
+                end = ranges[i + 1]
+            else:
+                end = 255
+            print(f"[{octet1}.{octet2}.{octet3}.{start}] - [{octet1}.{octet2}.{octet3}.{end}]")
+
+        # Display the total count
+        print("Total count:", count)
+
+    else:
+        print(" Don't give up you can do this ")
+
+    print("Common you can figure this out : ")
+
+    # ASking the user for running this program again :
+    choice = input("\n\n Do you want to continue?    '{^_^}'     (y/n): ")
+    if choice.lower() != "y":
+        break
+
+
+
+
+
+
 
